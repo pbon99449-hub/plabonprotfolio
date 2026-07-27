@@ -217,6 +217,125 @@ profile-photo .img{
 }
 
 
+/*---------------------------Skills Section---------------------------*/
+
+.skills-content {
+  padding: 90px 0;
+  background-color: #202020;
+}
+
+.skills-title {
+  margin-bottom: 60px;
+  text-align: center;
+}
+
+.skills-title h4 {
+  text-transform: uppercase;
+  font-size: 40px;
+  line-height: 40px;
+  color: #fed700;
+  margin-bottom: 20px;
+}
+
+.skills-title p {
+  color: #e5e5e5;
+  font-size: 18px;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.skill-item {
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 12px;
+  padding: 25px 20px;
+  transition: all 0.3s ease;
+}
+
+.skill-item:hover {
+  border-color: #fed700;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(254, 215, 0, 0.1);
+}
+
+.skill-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.skill-icon-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.skill-icon {
+  font-size: 28px;
+  color: #fed700;
+  width: 35px;
+  text-align: center;
+}
+
+.skill-name {
+  color: #e5e5e5;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.skill-percent {
+  color: #fed700;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background-color: #444;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #fed700, #ff8c00, #fed700, #ffd000, #fed700);
+  background-size: 300% 100%;
+  border-radius: 10px;
+  position: relative;
+  transition: width 1.5s ease-in-out;
+}
+
+.progress-fill.animate {
+  animation: colorFlow 2s linear infinite;
+}
+
+.progress-glow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  filter: blur(4px);
+}
+
+@keyframes colorFlow {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 300% 0%;
+  }
+}
+
 /*---------------------------Button---------------------------*/
 
 .btn-group{
@@ -323,6 +442,40 @@ profile-photo .img{
 }
 
 
+
+/*---------------------------Certificate Button---------------------------*/
+
+.certificate-btn-wrapper {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.certificate-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  background-color: #fed700;
+  color: #202020;
+  border: 2px solid #fed700;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.certificate-btn:hover {
+  background-color: transparent;
+  color: #fed700;
+  box-shadow: 0 0 20px rgba(254, 215, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.certificate-btn i {
+  font-size: 16px;
+}
 
 /*---------------------------Projects---------------------------*/
 .project-content{
@@ -623,10 +776,17 @@ profile-photo .img{
     max-width: 100%;
     margin-top: 30px;
   }
-  .project{
-    flex-basis: 100%;
-    margin-bottom: 30px;
-  }
 
+  /* Skills responsive */
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
 }
 

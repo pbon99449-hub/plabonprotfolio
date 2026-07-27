@@ -77,13 +77,13 @@ $(document).ready(function() {
       delay: 200
     });
   
-    ScrollReveal().reveal(".header a, .profile-photo, .about-content, .education", {
+    ScrollReveal().reveal(".header a, .profile-photo, .about-content, .education, .skill-item:nth-child(odd)", {
       origin: "left"
     });
-    ScrollReveal().reveal(".header ul, .profile-text, .about-skills, .internship", {
+    ScrollReveal().reveal(".header ul, .profile-text, .about-skills, .internship, .skill-item:nth-child(even)", {
       origin: "right"
     });
-    ScrollReveal().reveal(".project-title, .contact-title", {
+    ScrollReveal().reveal(".project-title, .contact-title, .skills-title", {
       origin: "top"
     });
     ScrollReveal().reveal(".projects, .contact", {
@@ -92,6 +92,29 @@ $(document).ready(function() {
 
   // Set active nav item on page load
   updateActiveSection();
+
+  // Skills progress bar animation on scroll
+  function animateSkillBars() {
+    var skillSection = document.querySelector('.skills-content');
+    if (!skillSection) return;
+    
+    var sectionTop = skillSection.getBoundingClientRect().top;
+    var windowHeight = window.innerHeight;
+    
+    if (sectionTop < windowHeight - 100) {
+      document.querySelectorAll('.progress-fill').forEach(function(bar) {
+        var progress = bar.getAttribute('data-progress');
+        bar.style.width = progress + '%';
+        bar.classList.add('animate');
+      });
+      // Remove scroll listener once animated
+      window.removeEventListener('scroll', animateSkillBars);
+    }
+  }
+  
+  // Also trigger on page load if already visible
+  setTimeout(animateSkillBars, 500);
+  window.addEventListener('scroll', animateSkillBars);
 
   //contact form
   const scriptURL = 'https://script.google.com/macros/s/AKfycbyS83UGYm7c5KHjN6_zIbhm7yvxKYjW_IjBJUULS8zRFaj-FzZtY3W8qWveS0gY0mrZ/exec';
