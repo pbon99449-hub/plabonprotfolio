@@ -10,12 +10,14 @@ $(document).ready(function() {
   $(".menu_icon").click(function() {
     $(".navbar").toggleClass("active");
     $(this).find("i").toggleClass("fa-bars fa-times");
+    $("body").toggleClass("menu-open");
   });
 
   // Close mobile menu when a nav link is clicked
   $(".navbar li a").click(function() {
     $(".navbar").removeClass("active");
     $(".menu_icon i").removeClass("fa-times").addClass("fa-bars");
+    $("body").removeClass("menu-open");
   });
 
   //sticky header
@@ -80,7 +82,7 @@ $(document).ready(function() {
     ScrollReveal().reveal(".header a, .profile-photo, .about-content, .education, .skill-item:nth-child(odd)", {
       origin: "left"
     });
-    ScrollReveal().reveal(".header ul, .profile-text, .about-skills, .internship, .skill-item:nth-child(even)", {
+    ScrollReveal().reveal(".profile-text, .about-skills, .internship, .skill-item:nth-child(even)", {
       origin: "right"
     });
     ScrollReveal().reveal(".project-title, .contact-title, .skills-title", {
