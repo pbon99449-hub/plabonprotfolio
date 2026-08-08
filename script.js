@@ -1,118 +1,143 @@
-// Disable browser scroll restoration so page always starts at top on refresh
-if ('scrollRestoration' in history) {
-  history.scrollRestoration = 'manual';
+// Keep refreshes anchored at the top instead of restoring an old scroll position.
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
 }
 window.scrollTo(0, 0);
 
 document.addEventListener("DOMContentLoaded", function() {
-  var menuIcon = document.querySelector(".menu_icon");
+  var headerArea = document.querySelector(".header-area");
+  var menuButton = document.querySelector(".menu_icon");
   var navbar = document.querySelector(".navbar");
+  var navLinks = document.querySelectorAll(".navbar a");
+  var skillSection = document.querySelector(".skills-content");
+  var contactForm = document.forms["submitToGoogleSheet"];
+  var message = document.getElementById("msg");
+  var contactScriptURL = "https://script.google.com/macros/s/AKfycbyS83UGYm7c5KHjN6_zIbhm7yvxKYjW_IjBJUULS8zRFaj-FzZtY3W8qWveS0gY0mrZ/exec";
 
-  if (!menuIcon || !navbar) return;
+  function setMenuOpen(isOpen) {
+    if (!menuButton || !navbar) return;
 
-  var menuIconSymbol = menuIcon.querySelector("i");
-
-  function setMenuState(isOpen) {
+    var icon = menuButton.querySelector("i");
     navbar.classList.toggle("active", isOpen);
     document.body.classList.toggle("menu-open", isOpen);
-    menuIcon.setAttribute("aria-expanded", String(isOpen));
-    menuIcon.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+    menuButton.setAttribute("aria-expanded", String(isOpen));
+    menuButton.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
 
-    if (menuIconSymbol) {
-      menuIconSymbol.classList.toggle("fa-bars", !isOpen);
-      menuIconSymbol.classList.toggle("fa-times", isOpen);
+    if (icon) {
+      icon.classList.toggle("fa-bars", !isOpen);
+      icon.classList.toggle("fa-times", isOpen);
     }
   }
 
-  function toggleMenu() {
-    setMenuState(!navbar.classList.contains("active"));
+  function closeMenu() {
+    setMenuOpen(false);
   }
 
-  menuIcon.addEventListener("click", toggleMenu);
-  menuIcon.addEventListener("keydown", function(event) {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      toggleMenu();
+  function getHeaderHeight() {
+    return headerArea ? headerArea.offsetHeight : 0;
+  }
+
+  function scrollToTarget(target) {
+    if (!target) return;
+
+    var destination = 0;
+    if (target !== "#home") {
+      var section = document.querySelector(target);
+      if (!section) return;
+      destination = section.getBoundingClientRect().top + window.pageYOffset - getHeaderHeight() - 24;
+    }
+
+    window.scrollTo({
+      top: Math.max(0, destination),
+      behavior: "smooth"
+    });
+  }
+
+  function updateActiveSection() {
+    var focusPoint = window.pageYOffset + getHeaderHeight() + 40;
+    var currentId = "home";
+
+    document.querySelectorAll("#home, section[id]").forEach(function(section) {
+      var top = section.offsetTop;
+      var bottom = top + section.offsetHeight;
+
+      if (focusPoint >= top && focusPoint < bottom) {
+        currentId = section.id;
+      }
+    });
+
+    if (window.innerHeight + window.pageYOffset >= document.body.scrollHeight - 6) {
+      currentId = "contact";
+    }
+
+    navLinks.forEach(function(link) {
+      link.classList.toggle("active", link.getAttribute("href") === "#" + currentId);
+    });
+  }
+
+  function updateStickyHeader() {
+    if (headerArea) {
+      headerArea.classList.toggle("sticky", window.pageYOffset > 1);
+    }
+    updateActiveSection();
+  }
+
+  function animateSkillBars() {
+    if (!skillSection) return;
+
+    if (skillSection.getBoundingClientRect().top < window.innerHeight - 100) {
+      document.querySelectorAll(".progress-fill").forEach(function(bar) {
+        bar.style.width = bar.getAttribute("data-progress") + "%";
+        bar.classList.add("animate");
+      });
+      window.removeEventListener("scroll", animateSkillBars);
+    }
+  }
+
+  if (menuButton && navbar) {
+    menuButton.addEventListener("click", function() {
+      setMenuOpen(!navbar.classList.contains("active"));
+    });
+  }
+
+  navLinks.forEach(function(link) {
+    link.addEventListener("click", function(event) {
+      var target = link.getAttribute("href");
+
+      if (target && target.charAt(0) === "#") {
+        event.preventDefault();
+        closeMenu();
+        scrollToTarget(target);
+      }
+    });
+  });
+
+  document.addEventListener("keyup", function(event) {
+    if (event.key === "Escape") {
+      closeMenu();
     }
   });
 
-  navbar.querySelectorAll("a").forEach(function(link) {
-    link.addEventListener("click", function() {
-      setMenuState(false);
-    });
-  });
-});
-
-if (window.jQuery) {
-$(document).ready(function() {
-
-  // Close mobile menu when a nav link is clicked
-  $(".navbar li a").click(function() {
-    $(".navbar").removeClass("active");
-    $(".menu_icon i").removeClass("fa-times").addClass("fa-bars");
-    $("body").removeClass("menu-open");
+  window.addEventListener("resize", function() {
+    if (window.innerWidth > 767) {
+      closeMenu();
+    }
+    updateActiveSection();
   });
 
-  //sticky header
-    $(window).scroll(function() {
-      if ($(this).scrollTop() > 1) {
-        $(".header-area").addClass("sticky");
-      } else {
-        $(".header-area").removeClass("sticky");
-      }
-  
-      // Update the active section in the header
-      updateActiveSection();
-    });
-  
-    $(".header ul li a").click(function(e) {
-      e.preventDefault();
+  window.addEventListener("scroll", updateStickyHeader, { passive: true });
+  window.addEventListener("scroll", animateSkillBars, { passive: true });
+  setTimeout(animateSkillBars, 500);
 
-      var $this = $(this);
-      var target = $this.attr("href");
-
-      if (target === "#home") {
-        $("html, body").animate({ scrollTop: 0 }, 500, function() {
-          $(".header ul li a").removeClass("active");
-          $this.addClass("active");
-        });
-        return;
-      }
-
-      var doScroll = function() {
-        var stickyH = $(".header-area").outerHeight();
-        var offset = $(target).offset().top - stickyH - 50;
-
-        $("html, body").animate(
-          { scrollTop: Math.max(1, offset) },
-          500,
-          function() {
-            // Set active only after scroll settles — avoids updateActiveSection()
-            // firing mid-animation and overwriting the active class
-            $(".header ul li a").removeClass("active");
-            $this.addClass("active");
-          }
-        );
-      };
-
-      if (!$(".header-area").hasClass("sticky")) {
-        // Force sticky + reflow first, then measure offset in the stable layout
-        $(window).scrollTop(1);
-        setTimeout(doScroll, 50);
-      } else {
-        doScroll();
-      }
-    });
-
-  
-    //Initial content revealing js
-    if (window.ScrollReveal) {
+  if (window.ScrollReveal) {
     ScrollReveal({
-      distance: "100px",
-      duration: 2000,
-      delay: 200
+      distance: "60px",
+      duration: 1200,
+      delay: 100,
+      viewFactor: 0.15,
+      cleanup: true
     });
-  
+
     ScrollReveal().reveal(".header a, .profile-photo, .about-content, .education, .skill-item:nth-child(odd)", {
       origin: "left"
     });
@@ -125,102 +150,44 @@ $(document).ready(function() {
     ScrollReveal().reveal(".projects, .contact", {
       origin: "bottom"
     });
-    }
-
-  // Set active nav item on page load
-  updateActiveSection();
-
-  // Skills progress bar animation on scroll
-  function animateSkillBars() {
-    var skillSection = document.querySelector('.skills-content');
-    if (!skillSection) return;
-    
-    var sectionTop = skillSection.getBoundingClientRect().top;
-    var windowHeight = window.innerHeight;
-    
-    if (sectionTop < windowHeight - 100) {
-      document.querySelectorAll('.progress-fill').forEach(function(bar) {
-        var progress = bar.getAttribute('data-progress');
-        bar.style.width = progress + '%';
-        bar.classList.add('animate');
-      });
-      // Remove scroll listener once animated
-      window.removeEventListener('scroll', animateSkillBars);
-    }
   }
-  
-  // Also trigger on page load if already visible
-  setTimeout(animateSkillBars, 500);
-  window.addEventListener('scroll', animateSkillBars);
 
-  //contact form
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbyS83UGYm7c5KHjN6_zIbhm7yvxKYjW_IjBJUULS8zRFaj-FzZtY3W8qWveS0gY0mrZ/exec';
-  const form = document.forms['submitToGoogleSheet']
-  const msg = document.getElementById("msg")
+  if (contactForm && message) {
+    contactForm.addEventListener("submit", function(event) {
+      event.preventDefault();
 
-  form.addEventListener('submit', e => {
-      e.preventDefault()
-      const submitBtn = form.querySelector('.submit');
-      submitBtn.value = "Sending...";
-      submitBtn.disabled = true;
-      fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-          .then(response => {
-              msg.innerHTML = "Message sent successfully"
-              msg.style.color = "#4CAF50";
-              setTimeout(function () {
-                  msg.innerHTML = ""
-              }, 5000)
-              form.reset()
-          })
-          .catch(error => {
-              msg.innerHTML = "Failed to send message. Please try again.";
-              msg.style.color = "#ff4444";
-              console.error('Error!', error.message)
-          })
-          .finally(() => {
-              submitBtn.value = "Send Message";
-              submitBtn.disabled = false;
-          })
-  })
-    
-  });
-}
-  
-  function updateActiveSection() {
-    if (!window.jQuery) return;
-    var scrollPosition = $(window).scrollTop();
-  
-    // Checking if scroll position is at the top of the page
-    if (scrollPosition === 0) {
-      $(".header ul li a").removeClass("active");
-      $(".header ul li a[href='#home']").addClass("active");
-      return;
-    }
-
-    // If scrolled to the bottom, highlight the last nav item (Contact)
-    if ($(window).scrollTop() + $(window).height() >= $(document).height() - 5) {
-      $(".header ul li a").removeClass("active");
-      $(".header ul li a[href='#contact']").addClass("active");
-      return;
-    }
-  
-    // Use a focus point: sticky header bottom + small offset
-    // A section is active when this focus point is inside it
-    var headerH = $(".header-area").outerHeight();
-    var focusPoint = scrollPosition + headerH + 30;
-
-    // Iterate through each section (including #home div) and update the active class
-    $("#home, section[id]").each(function() {
-      var target = $(this).attr("id");
-      var offset = $(this).offset().top;
-      var height = $(this).outerHeight();
-
-      if (focusPoint >= offset && focusPoint < offset + height) {
-        $(".header ul li a").removeClass("active");
-        $(".header ul li a[href='#" + target + "']").addClass("active");
+      var submitButton = contactForm.querySelector(".submit");
+      if (submitButton) {
+        submitButton.value = "Sending...";
+        submitButton.disabled = true;
       }
+
+      fetch(contactScriptURL, {
+        method: "POST",
+        body: new FormData(contactForm)
+      })
+        .then(function() {
+          message.innerHTML = "Message sent successfully";
+          message.style.color = "#4CAF50";
+          setTimeout(function() {
+            message.innerHTML = "";
+          }, 5000);
+          contactForm.reset();
+        })
+        .catch(function(error) {
+          message.innerHTML = "Failed to send message. Please try again.";
+          message.style.color = "#ff4444";
+          console.error("Error!", error.message);
+        })
+        .finally(function() {
+          if (submitButton) {
+            submitButton.value = "Send Message";
+            submitButton.disabled = false;
+          }
+        });
     });
   }
-  
 
- 
+  updateStickyHeader();
+  updateActiveSection();
+});

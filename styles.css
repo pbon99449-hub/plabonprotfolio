@@ -4,9 +4,11 @@
   margin:0;
   padding:0;
   box-sizing:border-box;
+  min-width: 0;
 }
 html{
   scroll-behavior:smooth;
+  overflow-x:hidden;
 }
 a{
   text-decoration: none ;
@@ -18,12 +20,15 @@ ul{
 }
 img{
   max-width: 100%;
+  height: auto;
 }
 body{
   font-family: 'Lexend', sans-serif;
   font-size:16px;
   line-height:24px; 
   background-color:#202020;
+  min-width: 320px;
+  overflow-x:hidden;
 }
 .container{
   max-width: 1170px;
@@ -40,6 +45,8 @@ body{
 .header-area{
   padding:25px 0;
   transition: padding .3s;
+  position: relative;
+  z-index: 100;
 }
 
 .header-area.sticky {
@@ -84,7 +91,7 @@ body{
 }
 
 .header ul li:first-child {
-  margin-right: auto; 
+  margin-right: 15px; 
 }  
 
 .header ul{
@@ -105,10 +112,12 @@ body{
   color:#fed700;
 }
 .header .menu_icon{
-  color:#fff;
-  font-size: 18px;
-  cursor: pointer;
   display: none;
+  appearance: none;
+  border: 0;
+  color:#fff;
+  font: inherit;
+  cursor: pointer;
 }
 
 
@@ -119,6 +128,12 @@ body{
    justify-content: space-around;
    align-items: center;
    padding-top: 5rem; 
+   width: 100%;
+   max-width: 1170px;
+   margin: 0 auto;
+   padding-left: 20px;
+   padding-right: 20px;
+   gap: 40px;
 } 
 
 .FirstElement.adjusted-padding {
@@ -152,7 +167,8 @@ profile-photo .img{
 }
 .profile-text h1{
   color: #fed700;
-  font-size: 3rem; 
+  font-size: clamp(2.3rem, 5vw, 3rem);
+  line-height: 1.15;
 }
 .profile-text p{
   color:#e5e5e5;
@@ -188,7 +204,7 @@ profile-photo .img{
 }
 .about-content h4{
   color: #fed700;
-  font-size: 40px;
+  font-size: clamp(30px, 5vw, 40px);
   line-height: 70px;
   text-transform: capitalize;
 }
@@ -211,6 +227,7 @@ profile-photo .img{
   margin-bottom: 10px;
   color: #fff;
   font-size: 18px;
+  overflow-wrap: anywhere;
 }
 .about-skills ul li:last-child{
   border-bottom: 0;
@@ -233,7 +250,7 @@ profile-photo .img{
 
 .skills-title h4 {
   text-transform: uppercase;
-  font-size: 40px;
+  font-size: clamp(30px, 5vw, 40px);
   line-height: 40px;
   color: #fed700;
   margin-bottom: 20px;
@@ -363,9 +380,10 @@ profile-photo .img{
 
 .education-content .row{
   display: flex;
+  gap: 30px;
   border-radius: 5px;
-  height: 400px;
-  margin-bottom: 250px;
+  height: auto;
+  margin-bottom: 90px;
 }
 
 .education-content .title{
@@ -490,7 +508,7 @@ profile-photo .img{
 }
 .project-title h4{
   text-transform: uppercase;
-  font-size: 40px;
+  font-size: clamp(30px, 5vw, 40px);
   line-height: 40px;
   color: #fed700;
   margin-bottom: 20px;
@@ -500,7 +518,7 @@ profile-photo .img{
 }
 .projects{
   display: flex;
-  justify-content:space-between;
+  gap: 24px;
   flex-wrap: wrap;
 }
 .project{
@@ -512,7 +530,8 @@ profile-photo .img{
     position: relative;
     padding: 25px;
     text-align: center;
-    flex-basis: 32%;
+    flex: 1 1 calc(33.333% - 24px);
+    min-width: 280px;
     margin-bottom: 30px;
     transition: .3s;
 }
@@ -618,7 +637,7 @@ profile-photo .img{
   text-align: center;
 }
 .contact-content .contact-title h4{
-  font-size: 40px;
+  font-size: clamp(30px, 5vw, 40px);
   text-transform: capitalize;
   color: #fed700;
   padding-bottom: 10px;
@@ -751,7 +770,8 @@ profile-photo .img{
     border-radius: 10px;
     background-color: #2a2a2a;
     cursor: pointer;
-    z-index: 101;
+    position: relative;
+    z-index: 120;
     transition: all 0.3s ease;
   }
   .header .menu_icon i {
@@ -766,83 +786,62 @@ profile-photo .img{
   .header .menu_icon:hover i {
     color: #202020;
   }
-  .header ul{
-    display: none;
-  }
-  .header ul.active{
+  .header .navbar{
+    position: fixed;
+    inset: 0;
     display: flex;
     flex-direction: column;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(32, 32, 32, 0.97);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     justify-content: center;
     align-items: center;
-    z-index: 99;
+    gap: 18px;
+    width: auto;
+    min-height: 100vh;
+    min-height: 100svh;
     margin: 0;
-    padding: 0;
-    opacity: 1 !important;
-    transform: none !important;
-    visibility: visible !important;
-    animation: menuFadeIn 0.4s ease;
-  }
-  .header ul.active li{
-    margin: 18px 0;
+    padding: 82px 20px 40px;
+    background: rgba(32, 32, 32, 0.98);
     opacity: 0;
-    animation: menuItemIn 0.4s ease forwards;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-12px);
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+    z-index: 110;
   }
-  .header ul.active li:nth-child(1) { animation-delay: 0.1s; }
-  .header ul.active li:nth-child(2) { animation-delay: 0.18s; }
-  .header ul.active li:nth-child(3) { animation-delay: 0.26s; }
-  .header ul.active li:nth-child(4) { animation-delay: 0.34s; }
-  .header ul.active li:nth-child(5) { animation-delay: 0.42s; }
-  .header ul.active li:nth-child(6) { animation-delay: 0.5s; }
-  .header ul.active li a{
-    font-size: 24px;
+  .header .navbar.active{
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  .header .navbar li{
+    margin: 0;
+    width: min(280px, 100%);
+    text-align: center;
+  }
+  .header .navbar li a{
+    display: block;
+    width: 100%;
+    font-size: 22px;
+    line-height: 1.2;
     font-weight: 500;
     color: #e5e5e5;
-    padding: 8px 24px;
-    border-radius: 30px;
+    padding: 12px 18px;
+    border-radius: 10px;
     transition: all 0.3s ease;
-    letter-spacing: 1px;
+    letter-spacing: 0;
   }
-  .header ul.active li a:hover{
+  .header .navbar li a:hover,
+  .header .navbar li a.active{
     color: #fed700;
     background: rgba(254, 215, 0, 0.1);
-  }
-  .header ul.active li a.active {
-    color: #fed700;
   }
   .header i{
     color: #e5e5e5;
   }
 
-  @keyframes menuFadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes menuItemIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
   body.menu-open {
     overflow: hidden;
+    touch-action: none;
   }
 
   /* Home */
@@ -908,7 +907,7 @@ profile-photo .img{
     font-size: 30px;
   }
   .skills-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 20px;
   }
   .skill-item {
