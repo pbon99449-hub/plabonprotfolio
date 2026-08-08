@@ -4,14 +4,47 @@ if ('scrollRestoration' in history) {
 }
 window.scrollTo(0, 0);
 
-$(document).ready(function() {
+document.addEventListener("DOMContentLoaded", function() {
+  var menuIcon = document.querySelector(".menu_icon");
+  var navbar = document.querySelector(".navbar");
 
-  // Mobile menu toggle
-  $(".menu_icon").click(function() {
-    $(".navbar").toggleClass("active");
-    $(this).find("i").toggleClass("fa-bars fa-times");
-    $("body").toggleClass("menu-open");
+  if (!menuIcon || !navbar) return;
+
+  var menuIconSymbol = menuIcon.querySelector("i");
+
+  function setMenuState(isOpen) {
+    navbar.classList.toggle("active", isOpen);
+    document.body.classList.toggle("menu-open", isOpen);
+    menuIcon.setAttribute("aria-expanded", String(isOpen));
+    menuIcon.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+
+    if (menuIconSymbol) {
+      menuIconSymbol.classList.toggle("fa-bars", !isOpen);
+      menuIconSymbol.classList.toggle("fa-times", isOpen);
+    }
+  }
+
+  function toggleMenu() {
+    setMenuState(!navbar.classList.contains("active"));
+  }
+
+  menuIcon.addEventListener("click", toggleMenu);
+  menuIcon.addEventListener("keydown", function(event) {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      toggleMenu();
+    }
   });
+
+  navbar.querySelectorAll("a").forEach(function(link) {
+    link.addEventListener("click", function() {
+      setMenuState(false);
+    });
+  });
+});
+
+if (window.jQuery) {
+$(document).ready(function() {
 
   // Close mobile menu when a nav link is clicked
   $(".navbar li a").click(function() {
@@ -70,9 +103,10 @@ $(document).ready(function() {
         doScroll();
       }
     });
-  
 
+  
     //Initial content revealing js
+    if (window.ScrollReveal) {
     ScrollReveal({
       distance: "100px",
       duration: 2000,
@@ -91,6 +125,7 @@ $(document).ready(function() {
     ScrollReveal().reveal(".projects, .contact", {
       origin: "bottom"
     });
+    }
 
   // Set active nav item on page load
   updateActiveSection();
@@ -149,8 +184,10 @@ $(document).ready(function() {
   })
     
   });
+}
   
   function updateActiveSection() {
+    if (!window.jQuery) return;
     var scrollPosition = $(window).scrollTop();
   
     // Checking if scroll position is at the top of the page
