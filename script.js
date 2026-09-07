@@ -129,6 +129,115 @@ document.addEventListener("DOMContentLoaded", function() {
   window.addEventListener("scroll", animateSkillBars, { passive: true });
   setTimeout(animateSkillBars, 500);
 
+  // Typing effect for hero roles
+  if (typeof Typed !== "undefined") {
+    try {
+      new Typed(".typed-role", {
+        strings: ["Web Developer", "Frontend Developer", "React Developer", "Problem Solver"],
+        typeSpeed: 55,
+        backSpeed: 28,
+        backDelay: 1700,
+        loop: true,
+        showCursor: true,
+        cursorChar: "|"
+      });
+    } catch (error) {
+      console.error("Typed.js failed", error);
+    }
+  }
+
+  // Animated stat counters
+  var countersAnimated = false;
+  function animateCounters() {
+    if (countersAnimated) return;
+    var statsSection = document.querySelector(".stats-section");
+    if (!statsSection) return;
+    if (statsSection.getBoundingClientRect().top < window.innerHeight - 60) {
+      countersAnimated = true;
+      document.querySelectorAll(".stat-number").forEach(function(counter) {
+        var target = parseInt(counter.getAttribute("data-target") || "0", 10);
+        var suffix = counter.getAttribute("data-suffix") || "";
+        var startTime = null;
+        var duration = 1600;
+        function step(timestamp) {
+          if (!startTime) startTime = timestamp;
+          var progress = Math.min((timestamp - startTime) / duration, 1);
+          var eased = 1 - Math.pow(1 - progress, 3);
+          counter.textContent = Math.round(eased * target) + suffix;
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          }
+        }
+        requestAnimationFrame(step);
+      });
+      window.removeEventListener("scroll", animateCounters);
+    }
+  }
+  window.addEventListener("scroll", animateCounters, { passive: true });
+  setTimeout(animateCounters, 500);
+
+  // Reading progress bar
+  var progressBar = document.getElementById("progressBar");
+  function updateProgressBar() {
+    if (!progressBar) return;
+    var scrollable = document.body.scrollHeight - window.innerHeight;
+    var scrolled = window.pageYOffset;
+    var progress = scrollable > 0 ? (scrolled / scrollable) * 100 : 0;
+    progressBar.style.width = Math.min(100, progress) + "%";
+  }
+  window.addEventListener("scroll", updateProgressBar, { passive: true });
+  updateProgressBar();
+
+  // Dynamic copyright year
+  var yearEl = document.getElementById("year");
+  if (yearEl) {
+    yearEl.textContent = new Date().getFullYear();
+  }
+
+  // Back to top
+  var backToTop = document.getElementById("backToTop");
+  function updateBackToTop() {
+    if (!backToTop) return;
+    var visible = window.pageYOffset > 450;
+    backToTop.classList.toggle("show", visible);
+  }
+  if (backToTop) {
+    backToTop.addEventListener("click", function() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    window.addEventListener("scroll", updateBackToTop, { passive: true });
+    updateBackToTop();
+  }
+
+  // Copy email to clipboard
+  var copyEmailButton = document.querySelector(".copy-email");
+  if (copyEmailButton) {
+    copyEmailButton.addEventListener("click", function() {
+      var email = "pbon99449@gmail.com";
+      function showCopied() {
+        var icon = copyEmailButton.querySelector("i");
+        if (!icon) return;
+        icon.classList.remove("fa-copy");
+        icon.classList.add("fa-check");
+        setTimeout(function() {
+          icon.classList.add("fa-copy");
+          icon.classList.remove("fa-check");
+        }, 1600);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(email).then(showCopied).catch(showCopied);
+      } else {
+        var tempInput = document.createElement("textarea");
+        tempInput.value = email;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        try { document.execCommand("copy"); } catch (error) {}
+        document.body.removeChild(tempInput);
+        showCopied();
+      }
+    });
+  }
+
   if (window.ScrollReveal) {
     ScrollReveal({
       distance: "60px",
@@ -144,11 +253,23 @@ document.addEventListener("DOMContentLoaded", function() {
     ScrollReveal().reveal(".profile-text, .about-skills, .internship, .skill-item:nth-child(even)", {
       origin: "right"
     });
-    ScrollReveal().reveal(".project-title, .contact-title, .skills-title", {
+    ScrollReveal().reveal(".project-title, .contact-title, .skills-title, .services-title", {
       origin: "top"
     });
-    ScrollReveal().reveal(".projects, .contact", {
+
+    ScrollReveal().reveal(".stats-section, .services-grid", {
       origin: "bottom"
+    });
+    ScrollReveal().reveal(".projects, .contact-cards", {
+      origin: "bottom"
+    });
+
+    ScrollReveal().reveal(".contact-info, .footer", {
+      origin: "left"
+    });
+
+    ScrollReveal().reveal(".contact-form", {
+      origin: "right"
     });
   }
 

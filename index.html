@@ -14,6 +14,9 @@
 
 <body>
 
+    <!-------------------------- Reading Progress Bar -------------------------->
+    <div class="progress-bar-top" id="progressBar" aria-hidden="true"></div>
+
     <!-------------------------- Header Area -------------------------->
     <header class="header-area">
         <div class="container">
@@ -28,6 +31,7 @@
                     <li><a href="#home">Home</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#skills">Skills</a></li>
+                    <li><a href="#services">Services</a></li>
                     <li><a href="#education">Education</a></li>
                     <li><a href="#projects">Projects</a></li>
                     <li><a href="#contact">Contact</a></li>
@@ -43,17 +47,25 @@
  
     <!-------------------------- Home Page -------------------------->
     <div class="FirstElement" id="home">
-        <div class="profile-photo">
-            <img src="files/plabon.jpg" alt="profile picture">
+        <div class="photo-wrap">
+            <span class="photo-glow" aria-hidden="true"></span>
+            <div class="profile-photo">
+                <img src="files/plabon.jpg" alt="profile picture">
+            </div>
+            <span class="availability-badge" aria-hidden="true"><i class="fa fa-circle"></i> Available for work</span>
+            <span class="float-chip chip-1" aria-hidden="true"><i class="fab fa-react"></i></span>
+            <span class="float-chip chip-2" aria-hidden="true"><i class="fab fa-js-square"></i></span>
         </div>
         <div class="profile-text">
-            <h5>Hi I'm </h5><br>
-            <h1>Plabon</h1><br>
+            <h5>Hi I'm </h5>
+            <h1 class="hero-name">Plabon</h1>
+            <h3 class="role-title">A passionate <span class="typed-role"></span></h3>
             <p>Welcome to my portfolio! I'm Plabon, a passionate and dedicated web developer who enjoys creating modern, user-friendly, and meaningful digital experiences. I believe in writing clean, efficient solutions and continuously improving my work through learning, creativity, and attention to detail. Every project I build is an opportunity to solve real-world problems, grow as a developer, and deliver experiences that make a lasting impact. I'm always excited to take on new challenges and turn ideas into reality.
 </p>
             
             <div class="btn-group">
                 <a href="https://drive.google.com/file/d/1tUJGeE9uQJtqiMxZ5TSvAbJ19hFmPb7s/view" class="btn   active">Download CV</a>
+                <a href="#projects" class="btn">View My Work</a>
                 <a href="mailto:pbon99449@gmail.com" class="btn">Contact</a>
             </div>
 
@@ -61,6 +73,9 @@
                 <a href="mailto:pbon99449@gmail.com"><i class="fa fa-envelope"></i></a>
                 <a href="https://github.com/pbon99449-hub"><i class="fa-brands fa-github"></i></a>
                 <a href="https://www.linkedin.com/in/md-plabon-9b933836a/"><i class="fa-brands fa-linkedin"></i></a>
+                <button type="button" class="copy-email" aria-label="Copy email address" title="Copy email">
+                    <i class="fa fa-copy"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -88,6 +103,34 @@
                         <li>Availability: Fulltime</li>
                         <li>Experience: &#60;2yr</li>
                     </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <!-------------------------- Stats Section -------------------------->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fa fa-rocket"></i>
+                    <h3 class="stat-number" data-target="5" data-suffix="+">0</h3>
+                    <p>Projects Completed</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fa fa-laptop-code"></i>
+                    <h3 class="stat-number" data-target="8" data-suffix="+">0</h3>
+                    <p>Technologies Known</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fa fa-award"></i>
+                    <h3 class="stat-number" data-target="2" data-suffix="+">0</h3>
+                    <p>Years of Learning</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fa fa-graduation-cap"></i>
+                    <h3 class="stat-number" data-target="1" data-suffix="+">0</h3>
+                    <p>Certification</p>
                 </div>
             </div>
         </div>
@@ -240,13 +283,67 @@
         </div>
     </section>
 
+        <!-------------------------- Services Section -------------------------->
+    <section class="services-content" id="services">
+        <div class="container">
+            <div class="services-title">
+                <h4>My Services</h4>
+                <p>What I can do for you</p>
+            </div>
+            <div class="services-grid">
+                <!-- Service 1 -->
+                <div class="service-card">
+                    <div class="service-icon"><i class="fa fa-code"></i></div>
+                    <h3>Web Development</h3>
+                    <p>Fast, responsive and accessible websites built with modern technologies like HTML, CSS, JavaScript, React and Next.js.</p>
+                    <a href="#contact" class="service-link">Hire Me <i class="fa fa-arrow-right"></i></a>
+                </div>
+                <!-- Service 2 -->
+                <div class="service-card">
+                    <div class="service-icon"><i class="fa fa-mobile-alt"></i></div>
+                    <h3>Responsive Design</h3>
+                    <p>Pixel-perfect layouts that look and feel great on every device — from mobile phones to large desktop screens.</p>
+                    <a href="#contact" class="service-link">Hire Me <i class="fa fa-arrow-right"></i></a>
+                </div>
+                <!-- Service 3 -->
+                <div class="service-card">
+                    <div class="service-icon"><i class="fa fa-palette"></i></div>
+                    <h3>Modern UI / UX</h3>
+                    <p>Clean, user-friendly interfaces designed around the user, with a focus on usability, hierarchy and micro-interactions.</p>
+                    <a href="#contact" class="service-link">Hire Me <i class="fa fa-arrow-right"></i></a>
+                </div>
+                <!-- Service 4 -->
+                <div class="service-card">
+                    <div class="service-icon"><i class="fa fa-gauge-high"></i></div>
+                    <h3>Performance & SEO</h3>
+                    <p>Optimized loading speed, semantic markup and SEO-friendly structure to help your site rank and perform better.</p>
+                    <a href="#contact" class="service-link">Hire Me <i class="fa fa-arrow-right"></i></a>
+                </div>
+                <!-- Service 5 -->
+                <div class="service-card">
+                    <div class="service-icon"><i class="fa fa-bug-slash"></i></div>
+                    <h3>Bug Fixing & Maintenance</h3>
+                    <p>Keep your website healthy with regular updates, bug fixes, content changes and small feature improvements.</p>
+                    <a href="#contact" class="service-link">Hire Me <i class="fa fa-arrow-right"></i></a>
+                </div>
+                <!-- Service 6 -->
+                <div class="service-card">
+                    <div class="service-icon"><i class="fa fa-cloud-upload-alt"></i></div>
+                    <h3>Deployment & Hosting</h3>
+                    <p>Deploy and manage projects on modern platforms like Vercel and Netlify with custom domains and live updates.</p>
+                    <a href="#contact" class="service-link">Hire Me <i class="fa fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
         <!-------------- Education & Internship -------------->
     <section class="education-content" id="education">
         <div class="container">
             <div class="row">
                 <div class="education ">
-                    <h3 class="title">Education</h3>
+                    <h3 class="title"><i class="fa fa-graduation-cap"></i> Education</h3>
                     <div class="row">
                         <div class="timeline-box">
                             <div class="timeline">
@@ -277,7 +374,7 @@
                     </div>
                 </div>
                 <div class="internship creative-institute">
-                    <h3 class="title">Training</h3>
+                    <h3 class="title"><i class="fa fa-code"></i> Training</h3>
                     <div class="row">
                         <div class="timeline-box">
                             <div class="timeline">
@@ -321,6 +418,7 @@
                 <div class="project">
                     <div class="project-img">
                         <img src="files/preview1.png" alt="Wearnestxyz - Clothing Brand">
+                        <span class="project-number">01</span>
                     </div>
                     <h4>Wearnestxyz - Clothing Brand</h4>
                     <p>A modern and stylish clothing brand website built to showcase fashion collections with a clean, responsive design and seamless user experience for browsing and shopping.</p>
@@ -333,6 +431,7 @@
                  <div class="project">
                     <div class="project-img">
                         <img src="files/preview2.png" alt="Shopper - E-Commerce Website">
+                        <span class="project-number">02</span>
                     </div>
                     <h4>Shopper - E-Commerce Website</h4>
                     <p>A fully responsive e-commerce website built for online shopping, featuring product listings, a clean user interface, and smooth navigation to provide an enjoyable shopping experience.</p>
@@ -345,6 +444,7 @@
                 <div class="project">
                     <div class="project-img">
                         <img src="files/preview3.png" alt="Pettsup - Pet Care Website">
+                        <span class="project-number">03</span>
                     </div>
                     <h4>Pettsup - Pet Care Website</h4>
                     <p>A dedicated pet care platform designed to connect pet owners with services, resources, and information — offering a warm, user-friendly interface for pet lovers everywhere.</p>
@@ -357,6 +457,7 @@
                 <div class="project">
                     <div class="project-img">
                         <img src="files/preview4.png" alt="DT BMC College Website">
+                        <span class="project-number">04</span>
                     </div>
                     <h4>DT BMC College Website</h4>
                     <p>An institutional website built for Dhankhali Technical and BM College, providing information about courses, campus life, and academic resources with a professional and accessible design.</p>
@@ -365,7 +466,19 @@
                         <a href="https://github.com/pbon99449-hub/www.dtbmc" class="project-btn github-btn" target="_blank"><i class="fab fa-github"></i> GitHub</a>
                     </div>
                 </div>
-                
+                <!-- 5th Project -->
+                <div class="project">
+                    <div class="project-img">
+                        <img src="files/preview5.gif" alt="SoftVerse IT - Computer Training Center">
+                        <span class="project-number">05</span>
+                    </div>
+                    <h4>SoftVerse IT - Computer Training Center</h4>
+                    <p>An institutional website built for SoftVerse IT, a trusted computer training center in Munshiganj — featuring course listings, admission forms, team profiles, student testimonials, gallery and a smooth, user-friendly admission experience.</p>
+                    <div class="project-links">
+                        <a href="https://www.softverseit.com/" class="project-btn live-btn" target="_blank"><i class="fa fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -379,15 +492,47 @@
                 <p>Get In Touch</p>
             </div>
             <div class="contact">
-                <form name="submitToGoogleSheet">
+                <div class="contact-info">
+                    <h4 class="contact-info-title">Let's build something great together</h4>
+                    <p>Have a project in mind, a question, or just want to say hi? Feel free to reach out — I usually respond within 24 hours.</p>
+                    <div class="contact-cards">
+                        <div class="contact-card">
+                            <div class="contact-card-icon"><i class="fa fa-envelope"></i></div>
+                            <div>
+                                <h5>Email</h5>
+                                <a href="mailto:pbon99449@gmail.com">pbon99449@gmail.com</a>
+                            </div>
+                        </div>
+                        <div class="contact-card">
+                            <div class="contact-card-icon"><i class="fa fa-map-marker-alt"></i></div>
+                            <div>
+                                <h5>Location</h5>
+                                <p>Bangladesh (Remote Friendly)</p>
+                            </div>
+                        </div>
+                        <div class="contact-card">
+                            <div class="contact-card-icon"><i class="fa fa-clock"></i></div>
+                            <div>
+                                <h5>Availability</h5>
+                                <p>Full-time & Freelance Projects</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-social">
+                        <a href="https://github.com/pbon99449-hub" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/md-plabon-9b933836a/" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="mailto:pbon99449@gmail.com" aria-label="Email"><i class="fa fa-envelope"></i></a>
+                    </div>
+                </div>
+                <form name="submitToGoogleSheet" class="contact-form">
                     <input type="text" name="NAME" placeholder="Name" required>
                     <input type="email" name="EMAIL" placeholder="Email" required>
                     <input type="tel" name="PHONE" placeholder="Phone Number">
                     <input type="text" name="SUBJECT" placeholder="Subject">
                     <textarea name="MESSAGE" placeholder="Message"></textarea>
                     <input type="submit" value="Send Message" class="submit">
+                    <span id="msg"></span>
                 </form>
-                <span id="msg"></span>
             </div>
         </div>
     </section>
@@ -398,9 +543,28 @@
     <script src="https://unpkg.com/scrollreveal"></script>
     <script src="script.js?v=20260808-2"></script>
     
-    <!-------------------------- Footer section -------------------------->
+    <!-------------------------- Back to Top Button -------------------------->
+   <button class="back-to-top" id="backToTop" type="button" aria-label="Back to top">
+       <i class="fa fa-arrow-up"></i>
+   </button>
+
+   <!-------------------------- Footer section -------------------------->
    <footer class="footer">
-    <small class="message">Thanks for visiting and happy coding!</small>
+       <div class="footer-social">
+           <a href="https://github.com/pbon99449-hub" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+           <a href="https://www.linkedin.com/in/md-plabon-9b933836a/" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+           <a href="mailto:pbon99449@gmail.com" aria-label="Email"><i class="fa fa-envelope"></i></a>
+       </div>
+       <div class="footer-nav">
+           <a href="#home">Home</a>
+           <a href="#about">About</a>
+           <a href="#skills">Skills</a>
+           <a href="#services">Services</a>
+           <a href="#projects">Projects</a>
+           <a href="#contact">Contact</a>
+       </div>
+       <small class="message">Thanks for visiting and happy coding!</small>
+       <p class="copyright">&copy; <span id="year"></span> <span>Plabon.</span> All rights reserved.</p>
    </footer>
 
 </body>
